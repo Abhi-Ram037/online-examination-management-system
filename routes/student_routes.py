@@ -7,7 +7,8 @@ from services.student_service import (
     create_student,
     get_all_students,
     get_student,
-    get_students_with_pagination
+    get_students_with_pagination,
+    get_student_exams
 )
 
 
@@ -42,6 +43,21 @@ def add_student(
     db: Session = Depends(get_db)
 ):
     return create_student(db, student_data)
+
+
+@router.get("/{student_id}")
+def get_student_by_id(
+    student_id: int,
+    db: Session = Depends(get_db)
+):
+    return get_student(db, student_id)
+
+@router.get("/{student_id}/exams")
+def get_student_exam_list(
+    student_id: int,
+    db: Session = Depends(get_db)
+):
+    return get_student_exams(db, student_id)
 
 
 @router.get("/{student_id}")

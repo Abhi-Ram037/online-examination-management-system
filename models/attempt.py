@@ -17,12 +17,14 @@ class ExamAttempt(base):
     student_id = Column(
         Integer,
         ForeignKey("students.id"),
+        index=True,
         nullable=False
     )
 
     exam_id = Column(
         Integer,
         ForeignKey("exams.id"),
+        index=True,
         nullable=False
     )
 
@@ -33,6 +35,7 @@ class ExamAttempt(base):
 
     status = Column(
         String,
+        index=True,
         default="Started"
     )
 

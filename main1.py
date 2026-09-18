@@ -13,6 +13,7 @@ from routes.exam_routes import router as exam_router
 from routes.attempt_routes import router as attempt_router
 from routes.result_routes import router as result_router
 from routes.auth_routes import router as auth_router
+from routes.question_routes import router as question_router
 
 
 base.metadata.create_all(bind=engine)
@@ -39,7 +40,7 @@ app.include_router(exam_router)
 app.include_router(attempt_router)
 app.include_router(result_router)
 app.include_router(auth_router)
-
+app.include_router(question_router)
 
 @app.get("/")
 def home():

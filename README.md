@@ -1,591 +1,228 @@
 # Online Examination Management System
 
-A REST API-based **Online Examination Management System** developed using **Python and FastAPI**. The application provides APIs for student management, exam management, question management, exam attempts, result calculation, authentication, and leaderboard management.
+## Project Description
 
-The project follows a modular backend structure using **FastAPI, SQLAlchemy, Pydantic, SQLite, JWT authentication, and Alembic**.
+Online Examination Management System is a web-based application developed using **Python and FastAPI**. The main purpose of this project is to manage students, exams, questions, exam attempts and results in one system.
 
----
+The application provides APIs for creating and managing students and exams. It also allows questions to be added to exams, students to start and submit exams, and results to be viewed.
 
-## 🚀 Features
+This project was developed as a practical Python and FastAPI project to understand how REST APIs, databases, authentication and project structure work together.
 
-* Student registration and management
-* Create and manage examinations
-* Add questions to examinations
-* View examination questions
-* Start an examination
-* Submit examination attempts
-* Automatic score calculation
-* Manage examination attempts
-* View all results
-* View student-wise results
-* View examination leaderboard
-* User login and authentication
-* JWT token-based authentication
-* Password hashing
-* Input validation using Pydantic
-* Database operations using SQLAlchemy
-* Database migrations using Alembic
-* Interactive API documentation using Swagger UI
-* ReDoc API documentation
+## Technologies Used
 
----
+* Python
+* FastAPI
+* SQLAlchemy
+* MySQL
+* JWT Authentication
+* Pydantic
+* Alembic
+* Uvicorn
 
-## 🛠️ Technologies Used
+## Main Features
 
-| Technology | Purpose                       |
-| ---------- | ----------------------------- |
-| Python     | Backend programming           |
-| FastAPI    | REST API framework            |
-| SQLAlchemy | ORM and database operations   |
-| Pydantic   | Data validation               |
-| SQLite     | Database                      |
-| Alembic    | Database migrations           |
-| JWT        | Authentication                |
-| Passlib    | Password hashing              |
-| Uvicorn    | Application server            |
-| Swagger UI | API testing and documentation |
+### Student Management
 
----
+* Add a student
+* View all students
+* View student details
+* Manage student information
 
-## 📁 Project Structure
+### Exam Management
+
+* Create an exam
+* View exam details
+* Manage active and inactive exams
+* Add questions to an exam
+* View questions for an exam
+
+### Question Management
+
+Each question contains:
+
+* Question text
+* Option A
+* Option B
+* Option C
+* Option D
+* Correct answer
+
+Questions are connected to the respective exam.
+
+### Exam Attempt
+
+Students can:
+
+* Start an exam
+* Submit an exam
+* Complete an exam
+* Store the exam score
+* View exam attempts
+
+### Result Management
+
+The system provides APIs to:
+
+* View results
+* View results of a particular student
+* View the leaderboard
+
+### Authentication
+
+The project also includes login and JWT-based authentication for securing the API.
+
+## Project Structure
 
 ```text
-online_examination/
+online-examination-management-system/
+│
+├── main1.py
+├── database.py
+├── auth.py
+├── security.py
+├── requirements.txt
+├── alembic.ini
+├── .gitignore
 │
 ├── alembic/
-│   ├── README
 │   ├── env.py
+│   ├── README
 │   └── script.py.mako
 │
 ├── models/
+│   ├── __init__.py
 │   ├── student.py
 │   ├── exam.py
 │   ├── question.py
 │   └── attempt.py
 │
 ├── schemas/
+│   ├── __init__.py
 │   ├── student.py
 │   ├── exam.py
 │   ├── question.py
-│   └── attempt.py
-│
-├── services/
-│   ├── student_service.py
-│   ├── exam_service.py
-│   └── attempt_service.py
+│   ├── attempt.py
+│   ├── auth.py
+│   └── result.py
 │
 ├── routes/
+│   ├── __init__.py
 │   ├── student_routes.py
 │   ├── exam_routes.py
 │   ├── question_routes.py
-│   └── attempt_routes.py
+│   ├── attempt_routes.py
+│   ├── result_routes.py
+│   └── auth_routes.py
 │
-├── auth.py
-├── database.py
-├── security.py
-├── main1.py
-├── alembic.ini
-├── requirements.txt
-└── .gitignore
+└── services/
+    ├── __init__.py
+    ├── student_service.py
+    ├── exam_service.py
+    ├── attempt_service.py
+    └── result_service.py
 ```
 
----
+## How the Project Works
 
-## 🧩 Project Architecture
+The project follows a simple layered structure.
 
-The project is divided into different layers to keep the code organized and easier to maintain.
+**Routes** handle the API requests coming from the user.
 
-```text
-                    Client
-                      │
-                      ▼
-                FastAPI Routes
-                      │
-                      ▼
-                   Schemas
-                      │
-                      ▼
-                  Services
-                      │
-                      ▼
-                    Models
-                      │
-                      ▼
-                  SQLAlchemy
-                      │
-                      ▼
-                   SQLite
-```
+**Schemas** define the request and response data using Pydantic.
 
-### Routes
+**Models** define the database tables using SQLAlchemy.
 
-The `routes` folder contains the API endpoints for students, exams, questions, and exam attempts.
+**Services** contain the main business logic of the application.
 
-### Schemas
+**Database** handles the connection between the FastAPI application and the database.
 
-The `schemas` folder contains Pydantic models used for request validation and response data.
+**Authentication and Security** handle user login and JWT token-based authentication.
 
-### Services
+## Installation
 
-The `services` folder contains the main business logic of the application.
-
-### Models
-
-The `models` folder contains SQLAlchemy database models and defines the database structure and relationships.
-
-### Database
-
-The `database.py` file contains the database connection and SQLAlchemy configuration.
-
-### Authentication
-
-The `auth.py` and `security.py` files handle authentication, password protection, and JWT-related functionality.
-
----
-
-# 📚 API Endpoints
-
-## 👨‍🎓 Student APIs
-
-| Method | Endpoint                 | Description          |
-| ------ | ------------------------ | -------------------- |
-| GET    | `/students`              | Get all students     |
-| POST   | `/students`              | Create a new student |
-| GET    | `/students/{student_id}` | Get student by ID    |
-
----
-
-## 📝 Exam APIs
-
-| Method | Endpoint                     | Description               |
-| ------ | ---------------------------- | ------------------------- |
-| GET    | `/exams`                     | Get all exams             |
-| POST   | `/exams`                     | Create a new exam         |
-| GET    | `/exams/{exam_id}`           | Get exam by ID            |
-| POST   | `/exams/questions`           | Add a question            |
-| GET    | `/exams/{exam_id}/questions` | Get questions for an exam |
-
----
-
-## 📋 Attempt APIs
-
-| Method | Endpoint           | Description                  |
-| ------ | ------------------ | ---------------------------- |
-| POST   | `/attempts/start`  | Start an examination         |
-| POST   | `/attempts/submit` | Submit an examination        |
-| GET    | `/attempts`        | Get all examination attempts |
-
----
-
-## 🏆 Result APIs
-
-| Method | Endpoint                        | Description                 |
-| ------ | ------------------------------- | --------------------------- |
-| GET    | `/results`                      | Get all results             |
-| GET    | `/results/student/{student_id}` | Get results for a student   |
-| GET    | `/results/leaderboard`          | Get examination leaderboard |
-
----
-
-## 🔐 Authentication API
-
-| Method | Endpoint | Description                             |
-| ------ | -------- | --------------------------------------- |
-| POST   | `/login` | Login and generate authentication token |
-
----
-
-# 🔄 Application Workflow
-
-```text
-                  Student
-                     │
-                     ▼
-              Student Registration
-                     │
-                     ▼
-                   Login
-                     │
-                     ▼
-               View Available Exams
-                     │
-                     ▼
-                 Start Exam
-                     │
-                     ▼
-               Answer Questions
-                     │
-                     ▼
-                Submit Exam
-                     │
-                     ▼
-              Calculate Score
-                     │
-                     ▼
-                View Result
-                     │
-                     ▼
-                 Leaderboard
-```
-
----
-
-# 🗄️ Database Relationships
-
-The application contains relationships between students, exams, questions, and attempts.
-
-```text
-Student
-   │
-   │ 1
-   │
-   └──────────────< Many
-                  Exam Attempts
-                       │
-                       │
-                       ▼
-                     Exam
-
-
-Exam
- │
- │ 1
- │
- └──────────────< Many
-                Questions
-```
-
-### Main Relationships
-
-* One student can have multiple exam attempts.
-* One exam can contain multiple questions.
-* An exam attempt connects a student with an exam.
-* Exam results are generated based on submitted attempts.
-
----
-
-# 🔑 Authentication
-
-The application includes authentication using **JWT tokens**.
-
-The general authentication process is:
-
-```text
-User Login
-    ↓
-Validate Credentials
-    ↓
-Password Verification
-    ↓
-Generate JWT Token
-    ↓
-Authenticated API Access
-```
-
-Passwords are protected using password hashing instead of storing plain-text passwords.
-
----
-
-# 🧪 API Documentation
-
-FastAPI automatically generates interactive API documentation.
-
-### Swagger UI
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-Swagger UI can be used to:
-
-* View available APIs
-* Enter request parameters
-* Send API requests
-* Check responses
-* Test authentication
-* Understand request and response schemas
-
-### ReDoc
-
-```text
-http://127.0.0.1:8000/redoc
-```
-
----
-
-# ⚙️ Installation
-
-## 1. Clone the Repository
+First, clone the repository:
 
 ```bash
-git clone https://github.com/your-username/online-examination.git
+git clone https://github.com/Abhi-Ram037/online-examination-management-system.git
 ```
 
-Move into the project directory:
+Move into the project folder:
 
 ```bash
-cd online-examination
+cd online-examination-management-system
 ```
 
----
-
-## 2. Create a Virtual Environment
-
-For Windows:
-
-```bash
-python -m venv venv
-```
-
-Activate the virtual environment:
-
-```bash
-venv\Scripts\activate
-```
-
----
-
-## 3. Install Dependencies
-
-Install all required Python packages:
+Install the required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+## Running the Application
 
-# 🗃️ Database Setup
-
-The application uses **SQLite** for local database storage.
-
-Database configuration is handled through:
-
-```text
-database.py
-```
-
-Alembic is included for database migration management.
-
-To apply existing migrations:
-
-```bash
-alembic upgrade head
-```
-
-To create a new migration after changing database models:
-
-```bash
-alembic revision --autogenerate -m "update database"
-```
-
-Then apply the migration:
-
-```bash
-alembic upgrade head
-```
-
----
-
-# 🔐 Environment Variables
-
-Create a `.env` file in the project directory for secret configuration values.
-
-Example:
-
-```text
-secret_key=your_secret_key
-```
-
-**Do not upload your `.env` file to GitHub.**
-
-The project `.gitignore` file already prevents `.env` from being tracked.
-
----
-
-# ▶️ Running the Application
-
-Start the FastAPI application using:
+Start the FastAPI application using Uvicorn:
 
 ```bash
 python -m uvicorn main1:app --reload
 ```
 
-The server will start at:
-
-```text
-http://127.0.0.1:8000
-```
-
-Open Swagger UI:
+After starting the application, open:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
----
+The Swagger UI will open and all available API endpoints can be tested there.
 
-# 🧪 Testing the Application
+## API Modules
 
-The APIs can be tested directly through Swagger UI.
-
-### Basic testing flow
+The project contains APIs for:
 
 ```text
-1. Start the application
-        ↓
-2. Open /docs
-        ↓
-3. Create a student
-        ↓
-4. Create an exam
-        ↓
-5. Add questions
-        ↓
-6. Start an exam attempt
-        ↓
-7. Submit the exam
-        ↓
-8. Check the result
-        ↓
-9. Check the leaderboard
+Students
+Exams
+Questions
+Attempts
+Results
+Authentication
 ```
 
----
+## Database
 
-# 📦 Dependencies
+The application uses SQLAlchemy for database operations.
 
-The project dependencies are stored in:
+The database contains tables related to:
 
-```text
-requirements.txt
-```
+* Students
+* Exams
+* Questions
+* Attempts
+* Results
 
-Install them using:
+Alembic is included in the project for handling database migrations.
 
-```bash
-pip install -r requirements.txt
-```
+## Project Purpose
 
-Main dependencies include:
-
-```text
-FastAPI
-SQLAlchemy
-Pydantic
-Alembic
-Uvicorn
-Passlib
-Python-JOSE
-Python-Dotenv
-```
-
----
-
-# 🛡️ Security
-
-The project includes basic backend security practices such as:
-
-* JWT authentication
-* Password hashing
-* Request validation
-* Protected configuration using environment variables
-* Separation of authentication and application logic
-
-Secret values should always be stored in environment variables rather than directly inside source code.
-
----
-
-# 📈 Learning Outcomes
-
-This project helped me practice:
+The main purpose of developing this project was to get practical experience with:
 
 * Python programming
-* FastAPI development
+* FastAPI
 * REST API development
-* CRUD operations
-* SQLAlchemy ORM
+* SQLAlchemy
+* Database operations
 * Pydantic validation
-* SQLite database management
-* Database relationships
 * JWT authentication
-* Password hashing
-* API routing
-* Service-layer architecture
-* Alembic database migrations
-* Swagger API testing
-* Backend project structure
+* Project folder structure
+* API testing using Swagger UI
+* Database migrations using Alembic
 
----
+## Developer Note
 
-# 🚀 Future Improvements
+This project explanation is written in a simple and straightforward developer style based on the actual project implementation. The purpose is to explain what the application does, how the files are connected, and how the API can be run and tested.
 
-The application can be extended with:
+## Author
 
-* Admin dashboard
-* Role-based access control
-* Examination timer
-* Question randomization
-* Multiple-choice question categories
-* Pagination
-* Email notifications
-* Detailed student performance reports
-* Frontend application
-* Cloud database
-* Cloud deployment
-* Automated testing
+**Abhi Ram**
 
----
-
-# 💻 How the Project Works
-
-The application follows a layered backend approach.
-
-A request first reaches the **FastAPI route**. The request data is validated using **Pydantic schemas**. The route then communicates with the **service layer**, where the application's business logic is handled. The service layer interacts with the **SQLAlchemy models**, which communicate with the SQLite database. The processed result is then returned to the client through the FastAPI API.
-
-This structure keeps the application organized by separating API routes, validation, business logic, and database operations.
-
----
-
-# 📸 Screenshots
-
-Screenshots of the Swagger API documentation can be added here.
-
-Example:
-
-```text
-screenshots/
-├── students.png
-├── exams.png
-├── questions.png
-├── attempts.png
-└── results.png
-```
-
-Add screenshots after taking them from:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
----
-
-# 👨‍💻 Author
-
-**Abhiram**
-
-Python / FastAPI Developer
-
-This project was developed as a backend learning project to practice Python, FastAPI, REST APIs, databases, authentication, and backend application development.
-
----
-
-# ⭐ Project
-
-If you find this project useful, you can give the repository a star on GitHub.
-
----
-
-## 📄 License
-
-This project is created for learning and educational purposes.
+GitHub:
+https://github.com/Abhi-Ram037
